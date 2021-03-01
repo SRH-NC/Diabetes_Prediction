@@ -107,20 +107,21 @@ This example also uses Postman to query the REST endpoint.  The address in the P
 ## Screen Recording
 Here is a link to a screen recording of the project in action that demonstrates elements of all of the key steps below:
 
-***** ADD LINK*****
+https://vimeo.com/517895105
 
 Steps in Video:
+* Overview of Diabetes dataset
 * Build Hyperparameter Model
-* Build Auto-ML Model 
-* Deploy the best model 
-* Consume model endpoints 
+* Build AutoML Model 
+* Deploy the best models Hyperparameter and AutoML models 
+* Consume model endpoints using REST via Postman application
 
 ## How to improve the model in the future
 
 Here are several ideas to improve the model:
 * Add more data to let the 'data better tell the story'
 * Treat missing and outlier values to improve accuracy
-* Perform feature engineering to extract more / better information from the data
+* Choose other hyperparameters to model the data in other
 * Enable deep leaning feaures when building models
 
 
