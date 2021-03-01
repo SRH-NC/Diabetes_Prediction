@@ -1,6 +1,6 @@
 # Train diabetes predictor model using hyperparameter tuning and AutoML on diabetes dataset from UCI 
 
-The objective of predict the likelihood of person developing diabetes using different ML models and Azure ML studio. 
+The objective of this project is to predict the likelihood of person developing diabetes using different ML models and AzureML studio. 
 
 ## Preliminary steps overview
 
@@ -36,7 +36,11 @@ Below is an explore view of the dataset:
 
 The first step in building the hyperparameter run is to configure and run the training job using ScriptRunConfig.  This step defines the training enviroument, compute target, training script and default parameters. 
 
-The next step is to configure the hyperparameters using HyperDriveConfig.  The two hyperparameters I defined for the SVM model are various kernels and penalty (or C) values.  
+The next step is to configure the hyperparameters using HyperDriveConfig.  The two hyperparameters defined for the SVM runs and their range values are:
+* kernels - choice('linear', 'rbf', 'poly', 'sigmoid')
+* penalty (or C) - choice(0.5, 1, 1.5) values.  
+
+RandomParameterSampling was used to randomly select parameters from the search space during trainig.  
 
 The kernal parameters are an important role in SVM classification. Here different kernel parameters are used as a tuning parameter to improve the classification accuracy. There are four different types of kernels (Linear, Polynomial, RBF, and Sigmoid) that are popular in SVM classifier. Each type of kernal was used for various hyperparameter tuning runs.
 
@@ -44,15 +48,31 @@ The penalty parameter (also known as C) tells the algorithm how much you care ab
 
 The hyperparameter tuning begins and the runs are submitted.  The process is monitored until completion, the best run is identifed, and registered.  I discuss the performance of the best hyperparameter model along with the best AutoML models in the Model section below.   
 
+## Example of RunDetails 
+
+The screencap below shows an example of the RunDetails for the hyperdrive run.
+
+![](screenshots/run_details_widget.png)
+
 ## AutoML experiment settings and configuration
 
-After creating a AutoML experiemnt, the first step is to congigure the AutoML training run with AutoMLConfig.  The objective of this AutoML experiment is to perform classification and optimize around accuracy.  The other config parameters include timeout to limint long runs, max concurrent iterations, specify the compute target and number of cross validations.  
+After creating a AutoML experiemnt, the first step is to congigure the AutoML training run with AutoMLConfig.  The objective of this AutoML experiment is to perform classification and optimize around accuracy.  The AutoMLConfig parameters are:
+* Task - specify the machine learning task as 'classification'
+* primary_metric - define the primary metric as 'accuracy'
+* training_data - specifiy the dataset with the variable 'dataset'
+* label_column_name - identifiy the label column name as 'class'
+* experiment_timeout_minutes - limit long runs to '15' minutes
+* max_concurrent_iterations - specifiy max of '4' parallel training runs
+* compute_target - specify the compute target set to a compute cluster with variable 'compute_target'
+* n_cross_validations - '5' to reduce the likelihood of overfitting the model.
+
+The reason for selecting several of the AutoML parameters are related to 'classifying' diabetes outcomes as positive or negative based on input variables.  The primary task of 'accuracy' since it is a classfication task.  Limiting max concurrent runs to 4 since that is the max nodes configured for the compute cluster, 5 cross validations to reduce the likelihood of overfitting when training.  
 
 Additionally I configured pipeline steps to track output metric and model data using AutoMLSteps and submitted those as part of a piepline.
 
 The next step is to submit the AutoML run and monitor the run details.  
 
-After completion the results of all child runs are examined and the best model identified.  
+After completion the results of all child runs are examined and the best model identified. 
 
 For the AutoML example, the best performing model was deployed using the UI.  
 
