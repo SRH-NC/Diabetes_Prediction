@@ -139,7 +139,7 @@ This example also uses Postman to query the REST endpoint.  The address in the P
 ## Screen Recording
 Here is a link to a screen recording of the project in action that demonstrates elements of all of the key steps below:
 
-https://vimeo.com/517895105
+https://vimeo.com/518602818
 
 Steps in Video:
 * Overview of Diabetes dataset
