@@ -1,8 +1,14 @@
 # Train diabetes predictor model using hyperparameter tuning and AutoML on diabetes dataset from UCI 
 
-The objective of this project is to predict the likelihood of person developing diabetes using different ML models and AzureML studio. 
+The objective of this project is to predict the likelihood of person developing diabetes using different ML models and AzureML studio. In this project I created two models: one using AutoML and a second using a custom Support Vector Machine model with various hyperparameters tuned using HyperDrive.  The open source diabetes dataset was downloaded from UCI Machine Learning Repository, transformed and then uploaded to AzureML studio.  
 
-## Preliminary steps overview
+Once AutoML and HyperDrive training was complete, the models were evaluated and the best performing of each was deployed to an Azure endpoint.  The endpoints were quered with unseen data to validate the model performance.  I used Postman to build the REST query, submit to the Azure endpoint, and view the result.
+
+This is a useful project as it demonstrates predictive analytics capabilities of ML applied to a healthcare example.  Ample clinical data exists in medical records, clinical notes, pharmacy systems, etc., that can be evaluated to aid in managing care of patient populations.  
+
+This end-to-end ML example shows how a existing clinical dataset can be used to build a diabetes prediction model and then query the model to predict if a new individual will likely develop diabetes.  This Azure ML framework can be enhanced with additional data to improve performance nd or trained on new data for other clinical applications.  
+
+### Preliminary steps overview
 
 Before loading the data and developing the models, the first steps in the process for both the hyperdrive and AutoML models are:
 
@@ -48,7 +54,7 @@ The penalty parameter (also known as C) tells the algorithm how much you care ab
 
 The hyperparameter tuning begins and the runs are submitted.  The process is monitored until completion, the best run is identifed, and registered.  I discuss the performance of the best hyperparameter model along with the best AutoML models in the Model section below.   
 
-## Example of RunDetails 
+## Example of RunDetails for HyperDrive
 
 The screencap below shows an example of the RunDetails for the hyperdrive run.
 
@@ -74,7 +80,13 @@ The next step is to submit the AutoML run and monitor the run details.
 
 After completion the results of all child runs are examined and the best model identified. 
 
-For the AutoML example, the best performing model was deployed using the UI.  
+For the AutoML example, the best performing model was deployed using the UI.
+
+## Example of RunDetails for AutoML
+
+The screencap below shows an example of the RunDetails for the AutoML run.
+
+![](screenshots/run_details_widget_automl.png)
 
 ## Overview of the two models with best parameters
 
@@ -139,9 +151,10 @@ Steps in Video:
 ## How to improve the model in the future
 
 Here are several ideas to improve the model:
-* Add more data to let the 'data better tell the story'
+* Add more data samples let the 'data better tell the story'
+* Instead of binary predictive output, predict outcomes with percentage 
 * Treat missing and outlier values to improve accuracy
-* Choose other hyperparameters to model the data in other
+* Choose other hyperparameters to model the data 
 * Enable deep leaning feaures when building models
 
 
